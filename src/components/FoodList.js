@@ -18,6 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FolderIcon from '@material-ui/icons/Folder';
 import React, { useEffect } from 'react';
 import { addToList, getUserList, removeFromList } from '../services/UserInfo';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,6 +40,8 @@ export default function InteractiveList(props) {
     const classes = useStyles();
     const [foods, setFoods] = React.useState([]);
     const [foodItem, setFoodItem] = React.useState("");
+    const [amount, setAmount] = React.useState("");
+    const [unit, setUnit] = React.useState("");
 
     const [open, setOpen] = React.useState(false);
 
@@ -51,20 +54,21 @@ export default function InteractiveList(props) {
     };
 
     const handleSubmit = () => {
-        addFood(foodItem);
+        addFood(foodItem,amount,unit);
         setOpen(false);
     }
 
     const retrieve = () => {
         getUserList(props.user.googleId).then(data => {
+            console.log(data);
             setFoods(data["food"]);
         })
     }
 
     useEffect(() => retrieve(), []);
 
-    const addFood = (value) => {
-        addToList(props.user.googleId, value).then(data => setFoods(data["food"]));
+    const addFood = (value,amount,unit) => {
+        addToList(props.user.googleId, value,amount,unit).then(data => setFoods(data["food"]));
     }
     const deleteFood = (value) => {
         removeFromList(props.user.googleId, value).then(data => setFoods(data["food"]));
@@ -97,6 +101,26 @@ export default function InteractiveList(props) {
                                 onInput={e => setFoodItem(e.target.value)}
                                 fullWidth
                             />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="amount"
+                                label="amount"
+                                type="text"
+                                value={amount}
+                                onInput={e => setAmount(e.target.value)}
+                                fullWidth
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="unit"
+                                label="unit"
+                                type="text"
+                                value={unit}
+                                onInput={e => setUnit(e.target.value)}
+                                fullWidth
+                            />
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">
@@ -107,7 +131,9 @@ export default function InteractiveList(props) {
                        </Button>
                         </DialogActions>
                     </Dialog>
-                    {foods && foods.map((val) => (
+
+                    {Object.keys(foods).map((key) => (
+
                         <>
                             <ListItem>
                                 <ListItemAvatar>
@@ -116,12 +142,15 @@ export default function InteractiveList(props) {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={val}
-                                //secondary={secondary ? 'Secondary text' : null}
+                                    primary={key}
+                                    secondary={'Quantity: '+foods[key]['amount']+' Units: '+foods[key]['unit']}
                                 />
-                                <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteFood(val)} >
+                                {/* <LinearProgress variant="determinate" value='50' /> */}
 
+                                <ListItemSecondaryAction>
+                                    
+                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteFood(key)} >
+                                        
                                         <DeleteIcon />
                                     </IconButton>
                                 </ListItemSecondaryAction>

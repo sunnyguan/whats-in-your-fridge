@@ -5,8 +5,8 @@ export function getUserList(name) {
             .then(res => res.json())
 }
 
-export function addToList(name, item) {
-    return fetch(`${API_URL}/add?name=${name}&item=${item}`)
+export function addToList(name, item,amount,unit) {
+    return fetch(`${API_URL}/add?name=${name}&item=${item}&amount=${amount}&unit=${unit}`)
             .then(res => res.json())
 }
 
