@@ -11,19 +11,20 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            groups: [],
+            user: "", 
             loggedIn: false
         };
         this.success = this.success.bind(this);
         this.logout = this.logout.bind(this);
     }
 
-    success() {
-        this.setState({loggedIn: true})
+    success(res) {
+        console.log(res);
+        this.setState({loggedIn: true, user: res.profileObj})
     }
 
     logout() {
-        this.setState({loggedIn: false});
+        this.setState({loggedIn: false, user: {}});
     }
 
     componentDidMount() {
@@ -35,7 +36,7 @@ class Home extends React.Component {
             <>
                 {!this.state.loggedIn 
                 ? <><Intro onLogin={this.success} /></>
-                : <><Dashboard onLogout={this.logout} /></>}
+                : <><Dashboard onLogout={this.logout} user={this.state.user} /></>}
             </>
         );
     }

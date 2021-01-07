@@ -17,9 +17,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import KitchenIcon from '@material-ui/icons/Kitchen';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import BarChartIcon from '@material-ui/icons/BarChart';
 import FoodList from './FoodList';
 import Recipes from './Recipes';
 import Logout from './auth/Logout';
+import Graph from './graph/Graph';
 
 const drawerWidth = 240;
 
@@ -83,6 +85,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(11, 3),
   },
+  title: {
+    flexGrow: 1,
+  }
 }));
 
 export default function MiniDrawer(props) {
@@ -124,7 +129,7 @@ export default function MiniDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" className={classes.title} noWrap>
             Menu
           </Typography>
           <Logout onLogout={handleLogout}/>
@@ -150,20 +155,27 @@ export default function MiniDrawer(props) {
         </div>
         <Divider />
         <List>
-            <ListItem button key="fridge">
-              <ListItemIcon onClick={() => {setPage(0)}}><KitchenIcon /></ListItemIcon>
-              <ListItemText primary={"fridge"} />
+            <ListItem button key="Fridge" onClick={() => {setPage(0)}}>
+              <ListItemIcon ><KitchenIcon /></ListItemIcon>
+              <ListItemText primary={"Fridge"} />
             </ListItem>
-            <ListItem button key="recipes">
-              <ListItemIcon onClick={() => {setPage(1)}}><MenuBookIcon /></ListItemIcon>
-              <ListItemText primary={"recipes"} />
+            <ListItem button key="Recipes" onClick={() => {setPage(1)}}>
+              <ListItemIcon ><MenuBookIcon /></ListItemIcon>
+              <ListItemText primary={"Recipes"} />
+            </ListItem>
+            <ListItem button key="Stats" onClick={() => {setPage(2)}}>
+              <ListItemIcon ><BarChartIcon /></ListItemIcon>
+              <ListItemText primary={"Stats"} />
             </ListItem>
         </List>
       </Drawer>
       <main className={classes.content}>
         {page === 0 
-        ? <FoodList />
-        : <Recipes /> }
+        ? <FoodList user={props.user}/>
+        : page === 1
+          ? <Recipes user={props.user}/>
+          : <Graph user={props.user}/>
+        }
       </main>
     </div>
   );

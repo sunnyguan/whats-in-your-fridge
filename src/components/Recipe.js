@@ -87,20 +87,14 @@ export default function Recipe(props) {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
+        title={props.recipe.title}
         subheader="September 14, 2016"
       />
       <CardMedia
         className={classes.media}
-        image={props.image}
-        title="Paella dish"
+        image={props.recipe.image}
+        title="Recipe"
       />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook together with your
-          guests. Add 1 cup of frozen peas along with the mussels, if you like.
-        </Typography>
-      </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={handleOpen}>
           <FavoriteIcon />
@@ -157,7 +151,7 @@ export default function Recipe(props) {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-              <DetailedRecipe />
+              <DetailedRecipe recipe={props.recipe} />
           </DialogContentText>
         </DialogContent>
       </Dialog>

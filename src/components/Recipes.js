@@ -22,7 +22,7 @@ class Recipes extends React.Component {
     }
 
     componentDidMount() {
-        getRecipes(['milk', 'egg', 'sugar']).then(data => {
+        getRecipes(this.props.user.googleId).then(data => {
             this.setState({ groups: data });
         })
     }
@@ -31,17 +31,14 @@ class Recipes extends React.Component {
         console.log(this.state.groups);
         return (
            <>
-                <br></br>
-                <br></br>
-                <br></br>
-                <Typography variant="h5" gutterBottom>
+                <Typography variant="h6" gutterBottom>
                     Possible Recipes
                 </Typography>
                 <Grid container spacing={3}>
                     {this.state.groups.map((recipe, index) => {
                         return (
                             <Grid item xs={this.getGridListCols()}>
-                                <Recipe image={recipe['image']} />
+                                <Recipe recipe={recipe} />
                             </Grid>
                         )
                     })}

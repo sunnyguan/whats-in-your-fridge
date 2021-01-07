@@ -20,13 +20,11 @@ export default class DetailedRecipe extends React.Component {
     }
 
     componentDidMount() {
-        getDetails().then(data => {
-            this.setState({recipe: data});
-        });
+        
     }
 
     render() {
-        const recipe = this.state.recipe;
+        const recipe = this.props.recipe;
         return (
             <>
                 <Card >
@@ -43,7 +41,7 @@ export default class DetailedRecipe extends React.Component {
                             {recipe.title}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Score: {recipe.spoonacularScore}
+                            Missing {recipe.missedIngredientCount} ingredients
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                             Ready in {recipe.readyInMinutes} minutes

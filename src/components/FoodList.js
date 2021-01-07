@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -16,6 +16,15 @@ import Typography from '@material-ui/core/Typography';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon';
+import { getUserList, addToList, removeFromList } from '../services/UserInfo';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -26,49 +35,88 @@ const useStyles = makeStyles((theme) => ({
     title: {
         margin: theme.spacing(0, 0, 2),
     },
+    addItem : {
+        marginBottom: "10px",
+        
+    }
 }));
 
-
-
-// function deleteFood (value) {
-//   const filteredItems = foods.filter(x => x.value !== value);
-
-//   React.setState({
-//        foods: filteredItems
-//   });
-// };
-
-export default function InteractiveList() {
+export default function InteractiveList(props) {
     const classes = useStyles();
     const [dense, setDense] = React.useState(false);
     const [secondary, setSecondary] = React.useState(false);
-    const [foods, setFoods] = React.useState(['milk', 'apple', 'bread']);
+    const [foods, setFoods] = React.useState([]);
+    const [foodItem, setFoodItem] = React.useState("");
+
+    const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = () => {
+        addFood(foodItem);
+      setOpen(false);
+  }
+
+    const retrieve = () => {
+        getUserList(props.user.googleId).then(data => {
+            setFoods(data["food"]);
+        })
+    }
+
+    useEffect(() => retrieve(), []);
 
     const addFood = (value) => {
-      const items = foods.push(value);
-      setFoods(items);
+      addToList(props.user.googleId, value).then(data => setFoods(data["food"]));
     }
     const deleteFood = (value) => {
-      const filteredItems = foods.filter(x => x !== value);
-      setFoods(filteredItems);
+      removeFromList(props.user.googleId, value).then(data => setFoods(data["food"]));
     };  
 
     return (
         <div className={classes.root}>
-            <br />
             <Typography variant="h6" className={classes.title}>
-                What's in your fridge:
+                What's in {props.user.givenName}'s fridge:
           </Typography>
 
             <div className={classes.demo}>
                 <List dense={dense}>
-                    {foods.map((val) => ( 
-                     
-                      //  <IconButton onClick={() => addFood(val)}>
-                      //  <Icon>add_circle</Icon>
-     
-                      //  </IconButton>
-                    
+                <Button className={classes.addItem} variant="outlined" color="primary" onClick={handleClickOpen}>
+                Add new item
+                   </Button>
+                   <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                     <DialogTitle id="form-dialog-title">New Item</DialogTitle>
+                     <DialogContent>
+                       <DialogContentText>
+                       Please enter your food item
+                       </DialogContentText>
+                       <TextField
+                         autoFocus
+                         margin="dense"
+                         id="item"
+                         label="Food Item"
+                         type="text"
+                         value={foodItem}
+                         onInput={e => setFoodItem(e.target.value)}
+                         fullWidth
+                       />
+                     </DialogContent>
+                     <DialogActions>
+                       <Button onClick={handleClose} color="primary">
+                         Cancel
+                       </Button>
+                       <Button onClick={handleSubmit} color="primary">
+                       Add
+                       </Button>
+                     </DialogActions>
+                   </Dialog>
+                    {foods && foods.map((val) => ( 
+                        <>
                         <ListItem>
                             <ListItemAvatar>
                                 <Avatar>
@@ -86,7 +134,7 @@ export default function InteractiveList() {
                                 </IconButton>
                             </ListItemSecondaryAction>
                         </ListItem>
-                       
+                        </>
                     ))}
                 </List>
                 
