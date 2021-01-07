@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const foods = ['milk', 'apple','bread']
 
 
 // function deleteFood (value) {
@@ -44,12 +43,11 @@ export default function InteractiveList() {
     const classes = useStyles();
     const [dense, setDense] = React.useState(false);
     const [secondary, setSecondary] = React.useState(false);
+    const [foods, setFoods] = React.useState(['milk', 'apple', 'bread']);
 
-    deleteFood = value => {
-      const filteredItems = foods.filter(x => x.value !== value);
-      this.setState({
-          foods: filteredItems
-      });
+    const deleteFood = (value) => {
+      const filteredItems = foods.filter(x => x !== value);
+      setFoods(filteredItems);
     };
 
     return (
