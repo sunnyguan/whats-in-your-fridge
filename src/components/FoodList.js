@@ -17,28 +17,19 @@ import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    maxWidth: 752,
-  },
-  demo: {
-    backgroundColor: theme.palette.background.paper,
-  },
-  title: {
-    margin: theme.spacing(4, 0, 2),
-  },
+    root: {
+        flexGrow: 1,
+        maxWidth: 752,
+    },
+    demo: {
+        backgroundColor: theme.palette.background.paper,
+    },
+    title: {
+        margin: theme.spacing(4, 0, 2),
+    },
 }));
 
-const foods = ['milk','apple']
-
-
-function generate(element) {
-  return foods.map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
+const foods = ['milk', 'apple']
 
 // function deleteFood (food) {
 //   const filteredItems = this.state.foods.filter(x => x.Id !== food.Id);
@@ -48,42 +39,42 @@ function generate(element) {
 // };
 
 export default function InteractiveList() {
-  const classes = useStyles();
-  const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(false);
-  
+    const classes = useStyles();
+    const [dense, setDense] = React.useState(false);
+    const [secondary, setSecondary] = React.useState(false);
 
-  return (
-    <div className={classes.root}>
-          <br/>
-          <Typography variant="h6" className={classes.title}>
-            What's in your fridge: 
+
+    return (
+        <div className={classes.root}>
+            <br />
+            <Typography variant="h6" className={classes.title}>
+                What's in your fridge:
           </Typography>
-          
-          <div className={classes.demo}>
-            <List dense={dense}>
-              {generate(
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <FolderIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={}  // i want to access the key/value here
-                    //secondary={secondary ? 'Secondary text' : null}
-                  />
-                   <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete" > 
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>,
-              )}
-            </List>
-          </div>
-     
-    </div>
-  );
+
+            <div className={classes.demo}>
+                <List dense={dense}>
+                    {foods.map((val) => ( 
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Avatar>
+                                    <FolderIcon />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={val}  // i want to access the key/value here
+                            //secondary={secondary ? 'Secondary text' : null}
+                            />
+                            <ListItemSecondaryAction>
+                                <IconButton edge="end" aria-label="delete" >
+                                    <DeleteIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    ))}
+                </List>
+            </div>
+
+        </div>
+    );
 }
-  
+
