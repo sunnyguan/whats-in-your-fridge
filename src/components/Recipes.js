@@ -22,7 +22,10 @@ class Recipes extends React.Component {
     render() {
         console.log(this.state.groups);
         return (
-            <>
+           <>
+                <br></br>
+                <br></br>
+                <br></br>
                 <Typography variant="h5" gutterBottom>
                     Possible Recipes
                 </Typography>

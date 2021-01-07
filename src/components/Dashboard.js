@@ -20,6 +20,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import FoodList from './FoodList';
 import Recipes from './Recipes';
 
+import { useHistory } from "react-router-dom";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -97,6 +99,12 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+//   function go(text){
+//     let history = useHistory();
+
+//     history.push('/'+text);
+    
+// }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -143,9 +151,11 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['Recipes', 'Fridge', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              {/* <ListItemIcon onClick={() => go(text)}>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+              <ListItemIcon >{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+
               <ListItemText primary={text} />
             </ListItem>
           ))}
