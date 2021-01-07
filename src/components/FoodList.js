@@ -15,7 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import Icon from '@material-ui/core/Icon';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -45,10 +45,14 @@ export default function InteractiveList() {
     const [secondary, setSecondary] = React.useState(false);
     const [foods, setFoods] = React.useState(['milk', 'apple', 'bread']);
 
+    const addFood = (value) => {
+      const items = foods.push(value);
+      setFoods(items);
+    }
     const deleteFood = (value) => {
       const filteredItems = foods.filter(x => x !== value);
       setFoods(filteredItems);
-    };
+    };  
 
     return (
         <div className={classes.root}>
@@ -60,6 +64,12 @@ export default function InteractiveList() {
             <div className={classes.demo}>
                 <List dense={dense}>
                     {foods.map((val) => ( 
+                     
+                      //  <IconButton onClick={() => addFood(val)}>
+                      //  <Icon>add_circle</Icon>
+     
+                      //  </IconButton>
+                    
                         <ListItem>
                             <ListItemAvatar>
                                 <Avatar>
@@ -72,12 +82,15 @@ export default function InteractiveList() {
                             />
                             <ListItemSecondaryAction>
                                 <IconButton edge="end" aria-label="delete" onClick={() => deleteFood(val)} >
+
                                     <DeleteIcon />
                                 </IconButton>
                             </ListItemSecondaryAction>
                         </ListItem>
+                       
                     ))}
                 </List>
+                
             </div>
 
         </div>
