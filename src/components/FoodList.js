@@ -29,11 +29,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const foods = ['milk', 'apple']
+const foods = ['milk', 'apple','bread']
 
-// function deleteFood (food) {
-//   const filteredItems = this.state.foods.filter(x => x.Id !== food.Id);
-//   this.setState({
+
+// function deleteFood (value) {
+//   const filteredItems = foods.filter(x => x.value !== value);
+
+//   React.setState({
 //        foods: filteredItems
 //   });
 // };
@@ -43,6 +45,12 @@ export default function InteractiveList() {
     const [dense, setDense] = React.useState(false);
     const [secondary, setSecondary] = React.useState(false);
 
+    deleteFood = value => {
+      const filteredItems = foods.filter(x => x.value !== value);
+      this.setState({
+          foods: filteredItems
+      });
+    };
 
     return (
         <div className={classes.root}>
@@ -61,11 +69,11 @@ export default function InteractiveList() {
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
-                                primary={val}  // i want to access the key/value here
+                                primary={val}  
                             //secondary={secondary ? 'Secondary text' : null}
                             />
                             <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="delete" >
+                                <IconButton edge="end" aria-label="delete" onClick={() => deleteFood(val)} >
                                     <DeleteIcon />
                                 </IconButton>
                             </ListItemSecondaryAction>
@@ -76,5 +84,6 @@ export default function InteractiveList() {
 
         </div>
     );
-}
+                    
 
+                    }
