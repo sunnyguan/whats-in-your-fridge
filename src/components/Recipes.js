@@ -34,6 +34,7 @@ class Recipes extends React.Component {
                 <Typography variant="h6" gutterBottom>
                     Possible Recipes
                 </Typography>
+                <br></br>
                 <Grid container spacing={3}>
                     {this.state.groups.map((recipe, index) => {
                         return (
