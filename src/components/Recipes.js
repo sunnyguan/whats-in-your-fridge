@@ -3,6 +3,8 @@ import Grid from '@material-ui/core/Grid';
 import Recipe from './Recipe';
 import Typography from '@material-ui/core/Typography';
 import { getRecipes } from '../services/UserInfo';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+
 
 class Recipes extends React.Component {
 
@@ -11,6 +13,12 @@ class Recipes extends React.Component {
         this.state = {
             groups: []
         };
+    }
+
+    getGridListCols = () => {
+        if (isWidthUp('xl', this.props.width))
+            return 6
+        return 12;
     }
 
     componentDidMount() {
@@ -32,7 +40,7 @@ class Recipes extends React.Component {
                 <Grid container spacing={3}>
                     {this.state.groups.map((recipe, index) => {
                         return (
-                            <Grid item xs={6}>
+                            <Grid item xs={this.getGridListCols()}>
                                 <Recipe image={recipe['image']} />
                             </Grid>
                         )

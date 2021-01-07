@@ -15,12 +15,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import KitchenIcon from '@material-ui/icons/Kitchen';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import FoodList from './FoodList';
 import Recipes from './Recipes';
-
-import { useHistory } from "react-router-dom";
+import Logout from './auth/Logout';
 
 const drawerWidth = 240;
 
@@ -82,14 +81,15 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(11, 3),
   },
 }));
 
-export default function MiniDrawer() {
+export default function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [page, setPage] = React.useState(0);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -99,12 +99,10 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-//   function go(text){
-//     let history = useHistory();
+  const handleLogout = () => {
+    props.onLogout();
+  }
 
-//     history.push('/'+text);
-    
-// }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -127,8 +125,9 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            Menu
           </Typography>
+          <Logout onLogout={handleLogout}/>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -151,28 +150,20 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          {['Recipes', 'Fridge', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              {/* <ListItemIcon onClick={() => go(text)}>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-              <ListItemIcon >{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-
-              <ListItemText primary={text} />
+            <ListItem button key="fridge">
+              <ListItemIcon onClick={() => {setPage(0)}}><KitchenIcon /></ListItemIcon>
+              <ListItemText primary={"fridge"} />
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+            <ListItem button key="recipes">
+              <ListItemIcon onClick={() => {setPage(1)}}><MenuBookIcon /></ListItemIcon>
+              <ListItemText primary={"recipes"} />
             </ListItem>
-          ))}
         </List>
       </Drawer>
       <main className={classes.content}>
-        <Recipes />
-        <FoodList />
+        {page === 0 
+        ? <FoodList />
+        : <Recipes /> }
       </main>
     </div>
   );

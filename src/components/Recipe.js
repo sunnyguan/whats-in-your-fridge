@@ -15,6 +15,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DetailedRecipe from './RecipeDetails/DetailedRecipe';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,17 +44,37 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
 export default function Recipe(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
+      <>
     <Card className={classes.root}>
       <CardHeader
         avatar={
@@ -74,7 +102,7 @@ export default function Recipe(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" onClick={handleOpen}>
           <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share">
@@ -119,5 +147,20 @@ export default function Recipe(props) {
         </CardContent>
       </Collapse>
     </Card>
+    <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="md"
+        fullWidth={true}
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+              <DetailedRecipe />
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+  </>
   );
 }

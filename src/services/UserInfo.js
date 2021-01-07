@@ -26,3 +26,8 @@ export function getRecipes(items) {
     url += out.join('&');
     return fetch(url).then(res => res.json());
 }
+
+export function getDetails(id) {
+    return fetch(`${API_URL}/recipeDetails?id=${id}`)
+        .then(res => res.json());
+}

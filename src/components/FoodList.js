@@ -19,13 +19,12 @@ import Icon from '@material-ui/core/Icon';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        maxWidth: 752,
     },
     demo: {
         backgroundColor: theme.palette.background.paper,
     },
     title: {
-        margin: theme.spacing(4, 0, 2),
+        margin: theme.spacing(0, 0, 2),
     },
 }));
 
