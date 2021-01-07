@@ -31,12 +31,11 @@ class Recipes extends React.Component {
         console.log(this.state.groups);
         return (
            <>
-                <br></br>
-                <br></br>
-                <br></br>
+                
                 <Typography variant="h5" gutterBottom>
                     Possible Recipes
                 </Typography>
+                <br></br>
                 <Grid container spacing={3}>
                     {this.state.groups.map((recipe, index) => {
                         return (

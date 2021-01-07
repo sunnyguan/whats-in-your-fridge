@@ -29,15 +29,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-// function deleteFood (value) {
-//   const filteredItems = foods.filter(x => x.value !== value);
-
-//   React.setState({
-//        foods: filteredItems
-//   });
-// };
-
 export default function InteractiveList() {
     const classes = useStyles();
     const [dense, setDense] = React.useState(false);
@@ -55,7 +46,7 @@ export default function InteractiveList() {
 
     return (
         <div className={classes.root}>
-            <br />
+            
             <Typography variant="h6" className={classes.title}>
                 What's in your fridge:
           </Typography>

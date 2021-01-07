@@ -124,7 +124,7 @@ export default function MiniDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography style={{ flex: 1 }} variant="h6" noWrap>
             Menu
           </Typography>
           <Logout onLogout={handleLogout}/>
@@ -152,11 +152,11 @@ export default function MiniDrawer(props) {
         <List>
             <ListItem button key="fridge">
               <ListItemIcon onClick={() => {setPage(0)}}><KitchenIcon /></ListItemIcon>
-              <ListItemText primary={"fridge"} />
+              <ListItemText primary={"Fridge"} />
             </ListItem>
             <ListItem button key="recipes">
               <ListItemIcon onClick={() => {setPage(1)}}><MenuBookIcon /></ListItemIcon>
-              <ListItemText primary={"recipes"} />
+              <ListItemText primary={"Recipes"} />
             </ListItem>
         </List>
       </Drawer>
