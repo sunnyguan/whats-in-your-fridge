@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { VictoryChart, VictoryLine, VictoryTheme } from 'victory';
+import { VictoryChart, VictoryLine, VictoryTheme, VictoryLabel } from 'victory';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -19,6 +19,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,12 +38,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Graph(props) {
+function Graph(props) {
     const classes = useStyles();
     const [spendings, setSpendings] = React.useState([]);
     const [spendingItem, setSpendingItem] = React.useState("");
 
     const [open, setOpen] = React.useState(false);
+
+    const getGridListCols = () => {
+        if (isWidthUp('md', props.width))
+            return 6
+        return 12;
+    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -83,82 +91,92 @@ export default function Graph(props) {
 
     return (
         <div className={classes.root}>
-            <VictoryChart
-                theme={VictoryTheme.material}
-                domain={{ y: [0, arrayMax(spendings)] }}
-            >
-                <VictoryLine
-                    style={{
-                        data: { stroke: "#c43a31" },
-                        parent: { border: "1px solid #ccc" }
-                    }}
-                    data={
-                        spendings.map((item, index) => { return { "x": index + 1, "y": parseInt(item) } })
-                    }
-                />
-            </VictoryChart>
-            <Typography variant="h6" className={classes.title}>
-                {props.user.givenName}'s Spending:
+            <Grid container spacing={3}>
+                <Grid item xs={getGridListCols()}>
+                    <VictoryChart
+                        width={400}
+                        height={400}
+                        theme={VictoryTheme.material}
+                        domain={{ y: [0, arrayMax(spendings)] }}
+                    >
+                        <VictoryLabel text="Spending Trend" textAnchor="middle" x={200} y={25}/>
+                        <VictoryLine
+                            style={{
+                                data: { stroke: "#c43a31" },
+                                parent: { border: "1px solid #ccc" }
+                            }}
+                            data={
+                                spendings.map((item, index) => { return { "x": index + 1, "y": parseInt(item) } })
+                            }
+                        />
+                    </VictoryChart>
+                </Grid>
+                <Grid item xs={getGridListCols()}>
+                    <Typography variant="h6" className={classes.title}>
+                        {props.user.givenName}'s Spending:
           </Typography>
 
-            <div className={classes.demo}>
-                <List dense={false}>
-                    <Button className={classes.addItem} variant="outlined" color="primary" onClick={handleClickOpen}>
-                        Add new item
+                    <div className={classes.demo}>
+                        <List dense={false}>
+                            <Button className={classes.addItem} variant="outlined" color="primary" onClick={handleClickOpen}>
+                                Add new item
                    </Button>
-                    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                        <DialogTitle id="form-dialog-title">New Item</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                Please enter your food item
+                            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                                <DialogTitle id="form-dialog-title">New Item</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText>
+                                        Please enter your food item
                        </DialogContentText>
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="item"
-                                label="Spending Item"
-                                type="text"
-                                value={spendingItem}
-                                onInput={e => setSpendingItem(e.target.value)}
-                                fullWidth
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose} color="primary">
-                                Cancel
+                                    <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="item"
+                                        label="Spending Item"
+                                        type="text"
+                                        value={spendingItem}
+                                        onInput={e => setSpendingItem(e.target.value)}
+                                        fullWidth
+                                    />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleClose} color="primary">
+                                        Cancel
                        </Button>
-                            <Button onClick={handleSubmit} color="primary">
-                                Add
+                                    <Button onClick={handleSubmit} color="primary">
+                                        Add
                        </Button>
-                        </DialogActions>
-                    </Dialog>
-                    {spendings && spendings.map((val) => (
-                        <>
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <FolderIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={val}
-                                //secondary={secondary ? 'Secondary text' : null}
-                                />
-                                <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteSpending(val)} >
+                                </DialogActions>
+                            </Dialog>
+                            {spendings && spendings.map((val) => (
+                                <>
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                <FolderIcon />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={val}
+                                        //secondary={secondary ? 'Secondary text' : null}
+                                        />
+                                        <ListItemSecondaryAction>
+                                            <IconButton edge="end" aria-label="delete" onClick={() => deleteSpending(val)} >
 
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        </>
-                    ))}
-                </List>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                    </ListItem>
+                                </>
+                            ))}
+                        </List>
 
-            </div>
-
+                    </div>
+                </Grid>
+            </Grid>
         </div>
     );
 
 
 }
+
+export default withWidth()(Graph);
