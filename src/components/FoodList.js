@@ -1,29 +1,23 @@
-import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import FolderIcon from '@material-ui/icons/Folder';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Icon from '@material-ui/core/Icon';
-import { getUserList, addToList, removeFromList } from '../services/UserInfo';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import DeleteIcon from '@material-ui/icons/Delete';
+import FolderIcon from '@material-ui/icons/Folder';
+import React, { useEffect } from 'react';
+import { addToList, getUserList, removeFromList } from '../services/UserInfo';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,33 +29,31 @@ const useStyles = makeStyles((theme) => ({
     title: {
         margin: theme.spacing(0, 0, 2),
     },
-    addItem : {
+    addItem: {
         marginBottom: "10px",
-        
+
     }
 }));
 
 export default function InteractiveList(props) {
     const classes = useStyles();
-    const [dense, setDense] = React.useState(false);
-    const [secondary, setSecondary] = React.useState(false);
     const [foods, setFoods] = React.useState([]);
     const [foodItem, setFoodItem] = React.useState("");
 
     const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+    const handleClose = () => {
+        setOpen(false);
+    };
 
-  const handleSubmit = () => {
+    const handleSubmit = () => {
         addFood(foodItem);
-      setOpen(false);
-  }
+        setOpen(false);
+    }
 
     const retrieve = () => {
         getUserList(props.user.googleId).then(data => {
@@ -72,11 +64,11 @@ export default function InteractiveList(props) {
     useEffect(() => retrieve(), []);
 
     const addFood = (value) => {
-      addToList(props.user.googleId, value).then(data => setFoods(data["food"]));
+        addToList(props.user.googleId, value).then(data => setFoods(data["food"]));
     }
     const deleteFood = (value) => {
-      removeFromList(props.user.googleId, value).then(data => setFoods(data["food"]));
-    };  
+        removeFromList(props.user.googleId, value).then(data => setFoods(data["food"]));
+    };
 
     return (
         <div className={classes.root}>
@@ -85,63 +77,63 @@ export default function InteractiveList(props) {
           </Typography>
 
             <div className={classes.demo}>
-                <List dense={dense}>
-                <Button className={classes.addItem} variant="outlined" color="primary" onClick={handleClickOpen}>
-                Add new item
+                <List dense={false}>
+                    <Button className={classes.addItem} variant="outlined" color="primary" onClick={handleClickOpen}>
+                        Add new item
                    </Button>
-                   <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                     <DialogTitle id="form-dialog-title">New Item</DialogTitle>
-                     <DialogContent>
-                       <DialogContentText>
-                       Please enter your food item
+                    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">New Item</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Please enter your food item
                        </DialogContentText>
-                       <TextField
-                         autoFocus
-                         margin="dense"
-                         id="item"
-                         label="Food Item"
-                         type="text"
-                         value={foodItem}
-                         onInput={e => setFoodItem(e.target.value)}
-                         fullWidth
-                       />
-                     </DialogContent>
-                     <DialogActions>
-                       <Button onClick={handleClose} color="primary">
-                         Cancel
-                       </Button>
-                       <Button onClick={handleSubmit} color="primary">
-                       Add
-                       </Button>
-                     </DialogActions>
-                   </Dialog>
-                    {foods && foods.map((val) => ( 
-                        <>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <FolderIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={val}  
-                            //secondary={secondary ? 'Secondary text' : null}
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="item"
+                                label="Food Item"
+                                type="text"
+                                value={foodItem}
+                                onInput={e => setFoodItem(e.target.value)}
+                                fullWidth
                             />
-                            <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="delete" onClick={() => deleteFood(val)} >
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                                Cancel
+                       </Button>
+                            <Button onClick={handleSubmit} color="primary">
+                                Add
+                       </Button>
+                        </DialogActions>
+                    </Dialog>
+                    {foods && foods.map((val) => (
+                        <>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <FolderIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={val}
+                                //secondary={secondary ? 'Secondary text' : null}
+                                />
+                                <ListItemSecondaryAction>
+                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteFood(val)} >
 
-                                    <DeleteIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </ListItemSecondaryAction>
+                            </ListItem>
                         </>
                     ))}
                 </List>
-                
+
             </div>
 
         </div>
     );
-                    
 
-                    }
+
+}
