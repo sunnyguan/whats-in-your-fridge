@@ -39,6 +39,7 @@ export default function InteractiveList(props) {
     const classes = useStyles();
     const [foods, setFoods] = React.useState([]);
     const [foodItem, setFoodItem] = React.useState("");
+    const [selectedFile, setSelectedFile] = React.useState(null);
 
     const [open, setOpen] = React.useState(false);
 
@@ -70,6 +71,26 @@ export default function InteractiveList(props) {
         removeFromList(props.user.googleId, value).then(data => setFoods(data["food"]));
     };
 
+    const onFileChange = event => { 
+        setSelectedFile(event.target.files[0]);
+    }; 
+
+    const onFileUpload = () => {
+
+        const formData = new FormData();
+
+        formData.append(
+            "myFile",
+            selectedFile,
+            selectedFile.name
+        );
+
+        console.log(selectedFile);
+        console.log(formData);
+
+        // axios.post("api/uploadfile", formData);
+    };
+
     return (
         <div className={classes.root}>
             <Typography variant="h6" className={classes.title}>
@@ -80,7 +101,9 @@ export default function InteractiveList(props) {
                 <List dense={false}>
                     <Button className={classes.addItem} variant="outlined" color="primary" onClick={handleClickOpen}>
                         Add new item
-                   </Button>
+                    </Button>
+                    <input type="file" onChange={onFileChange} accept="image/*" />
+                    <Button onClick={onFileUpload}>Upload</Button>
                     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">New Item</DialogTitle>
                         <DialogContent>
