@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import { getRecipes } from '../services/UserInfo';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
-
 class Recipes extends React.Component {
 
     constructor(props) {
@@ -16,7 +15,8 @@ class Recipes extends React.Component {
     }
 
     getGridListCols = () => {
-        if (isWidthUp('xl', this.props.width))
+        console.log(this.props.width);
+        if (isWidthUp('md', this.props.width))
             return 6
         return 12;
     }
@@ -30,7 +30,7 @@ class Recipes extends React.Component {
     render() {
         console.log(this.state.groups);
         return (
-           <>
+            <>
                 <Typography variant="h6" gutterBottom>
                     Possible Recipes
                 </Typography>
@@ -49,4 +49,4 @@ class Recipes extends React.Component {
     }
 }
 
-export default Recipes
+export default withWidth()(Recipes);
