@@ -91,7 +91,10 @@ export default function InteractiveList(props) {
         reader.onloadend = function () {
             var b64 = {"image": reader.result.split("base64,")[1], 
                        "name": props.user.googleId};
-            scanReceipt(b64).then(data => console.log(data));
+            scanReceipt(b64).then(data => {
+                console.log(data);
+                setFoods(data['food']);
+            });
         }
         reader.readAsDataURL(event.target.files[0]);
     }; 
