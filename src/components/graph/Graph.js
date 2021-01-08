@@ -99,7 +99,7 @@ function Graph(props) {
                         theme={VictoryTheme.material}
                         domain={{ y: [0, arrayMax(spendings)] }}
                     >
-                        <VictoryLabel text="Spending Trend" textAnchor="middle" x={200} y={25}/>
+                        <VictoryLabel text="Spending Trend" textAnchor="middle" x={200} y={25} />
                         <VictoryLine
                             style={{
                                 data: { stroke: "#c43a31" },
@@ -148,7 +148,7 @@ function Graph(props) {
                                 </DialogActions>
                             </Dialog>
                             {spendings && spendings.map((val) => (
-                                <>
+                                <div key={val}>
                                     <ListItem>
                                         <ListItemAvatar>
                                             <Avatar>
@@ -166,7 +166,7 @@ function Graph(props) {
                                             </IconButton>
                                         </ListItemSecondaryAction>
                                     </ListItem>
-                                </>
+                                </div>
                             ))}
                         </List>
 

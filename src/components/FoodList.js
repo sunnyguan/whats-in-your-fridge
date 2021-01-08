@@ -159,7 +159,7 @@ export default function InteractiveList(props) {
 
                     {Object.keys(foods).map((key) => (
 
-                        <>
+                        <div key={key}>
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
@@ -183,7 +183,7 @@ export default function InteractiveList(props) {
                                     </IconButton>
                                 </ListItemSecondaryAction>
                             </ListItem>
-                        </>
+                        </div>
                     ))}
                 </List>
 
