@@ -29,3 +29,13 @@ export function removeFromSpending(name, item) {
     return fetch(`${API_URL}/spending/remove?name=${name}&item=${item}`)
             .then(res => res.json())
 }
+
+export function updateAmount(name,item,amount){
+    return fetch(`${API_URL}/add?name=${name}&item=${item}&amount=${amount}&change=amount`)
+            .then(res => res.json())
+}
+
+export function updateUnit(name,item,unit){
+    return fetch(`${API_URL}/add?name=${name}&item=${item}&unit=${unit}&change=unit`)
+            .then(res => res.json())
+}

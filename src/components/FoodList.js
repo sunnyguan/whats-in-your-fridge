@@ -17,8 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FolderIcon from '@material-ui/icons/Folder';
 import React, { useEffect } from 'react';
-import { addToList, getUserList, removeFromList } from '../services/UserInfo';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import {updateUnit,updateAmount,addToList, getUserList, removeFromList } from '../services/UserInfo';
+import { EditText, EditTextarea } from 'react-edit-text';
+import 'react-edit-text/dist/index.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -73,6 +74,13 @@ export default function InteractiveList(props) {
     const deleteFood = (value) => {
         removeFromList(props.user.googleId, value).then(data => setFoods(data["food"]));
     };
+    
+    const saveAmount = (element)=>{
+        updateAmount(props.user.googleId, element.name,element.value).then(data => setFoods(data["food"]));
+    }
+    const saveUnit = (element)=>{
+        updateUnit(props.user.googleId, element.name,element.value).then(data => setFoods(data["food"]));
+    }
 
     return (
         <div className={classes.root}>
@@ -143,9 +151,12 @@ export default function InteractiveList(props) {
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={key}
-                                    secondary={'Quantity: '+foods[key]['amount']+' Units: '+foods[key]['unit']}
+                                 
+
                                 />
-                                {/* <LinearProgress variant="determinate" value='50' /> */}
+
+                                <EditText name = {key} value = {foods[key]['amount']} onSave = {saveAmount} style={{width:60}} />
+                                <EditText name = {key} value = {foods[key]['unit']} onSave = {saveUnit} style={{width:60}}/>
 
                                 <ListItemSecondaryAction>
                                     
