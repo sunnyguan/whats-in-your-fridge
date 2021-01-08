@@ -38,18 +38,27 @@ export default class DetailedRecipe extends React.Component {
                             {recipe.title}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Missing {recipe.missedIngredientCount} ingredients
+                            Missing {recipe.missedIngredientCount} ingredients: 
+                            {/* {(recipe.missedIngredients[0].name)} */}
+
                         </Typography>
+                        {recipe.missedIngredients.map((value) => (
+                             <Typography>{value.name}</Typography>
+                              ))}
                         <Typography variant="body2" color="textSecondary" component="p">
                             Ready in {recipe.readyInMinutes} minutes
                         </Typography>
+                        
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Price per serving: {recipe.pricePerServing}
+                            {/* Recipe URL: {recipe.spoonacularSourceUrl 
+                            ? recipe.spoonacularSourceUrl : recipe.sourceUrl} */}
+                            Recipe URL: {recipe.sourceUrl}
                         </Typography>
                         </CardContent>
                     </CardActionArea>
                     <CardActions>
-                        <Button size="small" color="primary" href={recipe.sourceUrl}>
+                        <Button size="small" color="primary" href={recipe.spoonacularSourceUrl 
+                            ? recipe.spoonacularSourceUrl : recipe.sourceUrl} target="_blank">
                             Learn More
                         </Button>
                     </CardActions>

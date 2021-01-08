@@ -16,7 +16,7 @@ export function removeFromList(name, item) {
 }
 
 export function getRecipes(name) {
-    let url = `${API_URL}/recipeFake?name=${name}`; // remove fake
+    let url = `${API_URL}/recipe?name=${name}`; // remove fake
     return fetch(url).then(res => res.json());
 }
 
