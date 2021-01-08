@@ -119,13 +119,13 @@ function Graph(props) {
                     <div className={classes.demo}>
                         <List dense={false}>
                             <Button className={classes.addItem} variant="outlined" color="primary" onClick={handleClickOpen}>
-                                Add new item
+                                Add amount
                    </Button>
                             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                                <DialogTitle id="form-dialog-title">New Item</DialogTitle>
+                                <DialogTitle id="form-dialog-title">New Amount</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
-                                        Please enter your food item
+                                        Please enter your amount
                        </DialogContentText>
                                     <TextField
                                         autoFocus

@@ -79,11 +79,11 @@ export default function Recipe(props) {
               R
           </Avatar>
           }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
+          // action={
+          //   <IconButton aria-label="settings">
+          //     <MoreVertIcon />
+          //   </IconButton>
+          // }
           title={props.recipe.title}
           subheader="September 14, 2016"
         />
@@ -91,14 +91,13 @@ export default function Recipe(props) {
           className={classes.media}
           image={props.recipe.image}
           title="Recipe"
+          onClick={handleOpen}
         />
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites" onClick={handleOpen}>
-            <FavoriteIcon />
+            <MoreVertIcon />
           </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
+        
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
