@@ -105,7 +105,7 @@ export default function InteractiveList(props) {
                 What's in {props.user.givenName}'s fridge:
           </Typography>
             <Button variant="contained" component="label">
-                Upload File
+                Upload Receipt
                 <input type="file" onChange={onFileChange} accept="image/*" hidden/>
             </Button>
 
