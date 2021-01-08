@@ -29,3 +29,11 @@ export function removeFromSpending(name, item) {
     return fetch(`${API_URL}/spending/remove?name=${name}&item=${item}`)
             .then(res => res.json())
 }
+
+export function scanReceipt(image) {
+    return fetch(`${API_URL}/receipt`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(image)
+    }).then(res => res.json());
+}
