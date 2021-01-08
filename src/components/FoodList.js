@@ -41,6 +41,7 @@ export default function InteractiveList(props) {
     const classes = useStyles();
     const [foods, setFoods] = React.useState([]);
     const [foodItem, setFoodItem] = React.useState("");
+    const [selectedFile, setSelectedFile] = React.useState(null);
     const [amount, setAmount] = React.useState("");
     const [unit, setUnit] = React.useState("");
 
@@ -62,7 +63,8 @@ export default function InteractiveList(props) {
     const retrieve = () => {
         getUserList(props.user.googleId).then(data => {
             console.log(data);
-            setFoods(data["food"]);
+            if(data.length !== 0)
+                setFoods(data["food"]);
         })
     }
 
@@ -82,17 +84,39 @@ export default function InteractiveList(props) {
         updateUnit(props.user.googleId, element.name,element.value).then(data => setFoods(data["food"]));
     }
 
+    const onFileChange = event => { 
+        setSelectedFile(event.target.files[0]);
+    }; 
+
+    const onFileUpload = () => {
+
+        const formData = new FormData();
+
+        formData.append(
+            "myFile",
+            selectedFile,
+            selectedFile.name
+        );
+
+        console.log(selectedFile);
+        console.log(formData);
+
+        // axios.post("api/uploadfile", formData);
+    };
+
     return (
         <div className={classes.root}>
             <Typography variant="h6" className={classes.title}>
                 What's in {props.user.givenName}'s fridge:
           </Typography>
+            <input type="file" onChange={onFileChange} accept="image/*" />
+            <Button onClick={onFileUpload}>Upload</Button>
 
             <div className={classes.demo}>
                 <List dense={false}>
                     <Button className={classes.addItem} variant="outlined" color="primary" onClick={handleClickOpen}>
                         Add new item
-                   </Button>
+                    </Button>
                     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">New Item</DialogTitle>
                         <DialogContent>
@@ -110,7 +134,6 @@ export default function InteractiveList(props) {
                                 fullWidth
                             />
                             <TextField
-                                autoFocus
                                 margin="dense"
                                 id="amount"
                                 label="amount"
@@ -120,7 +143,6 @@ export default function InteractiveList(props) {
                                 fullWidth
                             />
                             <TextField
-                                autoFocus
                                 margin="dense"
                                 id="unit"
                                 label="unit"
