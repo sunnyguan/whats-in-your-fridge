@@ -18,9 +18,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FolderIcon from '@material-ui/icons/Folder';
 import React, { useEffect } from 'react';
 import { addToList, getUserList, removeFromList, scanReceipt } from '../services/UserInfo';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Input from '@material-ui/core/Input';
 
+import {updateUnit,updateAmount} from '../services/UserInfo';
+import { EditText, EditTextarea } from 'react-edit-text';
+import 'react-edit-text/dist/index.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     demo: {
         backgroundColor: theme.palette.background.paper,
     },
-    title: {
+    title: { 
         margin: theme.spacing(0, 0, 2),
     },
     addItem: {
@@ -77,12 +78,19 @@ export default function InteractiveList(props) {
     const deleteFood = (value) => {
         removeFromList(props.user.googleId, value).then(data => setFoods(data["food"]));
     };
+    
+    const saveAmount = (element)=>{
+        updateAmount(props.user.googleId, element.name,element.value).then(data => setFoods(data["food"]));
+    }
+    const saveUnit = (element)=>{
+        updateUnit(props.user.googleId, element.name,element.value).then(data => setFoods(data["food"]));
+    }
 
     const onFileChange = event => { 
         var reader = new FileReader();
         reader.onloadend = function () {
             console.log(reader.result);
-            var b64 = {"image": reader.result.split(",")[1], 
+            var b64 = {"image": reader.result.split("base64,")[1], 
                        "name": props.user.googleId};
             scanReceipt(b64).then(data => console.log(data));
         }
@@ -160,9 +168,12 @@ export default function InteractiveList(props) {
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={key}
-                                    secondary={'Quantity: '+foods[key]['amount']+' Units: '+foods[key]['unit']}
+                                 
+
                                 />
-                                {/* <LinearProgress variant="determinate" value='50' /> */}
+
+                                <EditText name = {key} value = {foods[key]['amount']} onSave = {saveAmount} style={{width:60}} />
+                                <EditText name = {key} value = {foods[key]['unit']} onSave = {saveUnit} style={{width:60}}/>
 
                                 <ListItemSecondaryAction>
                                     
