@@ -107,7 +107,7 @@ export default function Recipe(props) {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <div >Method:</div>
+            <div>Summary</div>
            <div dangerouslySetInnerHTML={{__html: props.recipe.summary}}>
            
            </div>
