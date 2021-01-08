@@ -89,7 +89,6 @@ export default function InteractiveList(props) {
     const onFileChange = event => { 
         var reader = new FileReader();
         reader.onloadend = function () {
-            console.log(reader.result);
             var b64 = {"image": reader.result.split("base64,")[1], 
                        "name": props.user.googleId};
             scanReceipt(b64).then(data => console.log(data));
