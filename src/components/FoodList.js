@@ -17,7 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FolderIcon from '@material-ui/icons/Folder';
 import React, { useEffect } from 'react';
-import {updateUnit,updateAmount,addToList, getUserList, removeFromList } from '../services/UserInfo';
+import { addToList, getUserList, removeFromList, scanReceipt } from '../services/UserInfo';
+
+import {updateUnit,updateAmount} from '../services/UserInfo';
 import { EditText, EditTextarea } from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
 
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     demo: {
         backgroundColor: theme.palette.background.paper,
     },
-    title: {
+    title: { 
         margin: theme.spacing(0, 0, 2),
     },
     addItem: {
@@ -85,32 +87,25 @@ export default function InteractiveList(props) {
     }
 
     const onFileChange = event => { 
-        setSelectedFile(event.target.files[0]);
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            console.log(reader.result);
+            var b64 = {"image": reader.result.split("base64,")[1], 
+                       "name": props.user.googleId};
+            scanReceipt(b64).then(data => console.log(data));
+        }
+        reader.readAsDataURL(event.target.files[0]);
     }; 
-
-    const onFileUpload = () => {
-
-        const formData = new FormData();
-
-        formData.append(
-            "myFile",
-            selectedFile,
-            selectedFile.name
-        );
-
-        console.log(selectedFile);
-        console.log(formData);
-
-        // axios.post("api/uploadfile", formData);
-    };
 
     return (
         <div className={classes.root}>
             <Typography variant="h6" className={classes.title}>
                 What's in {props.user.givenName}'s fridge:
           </Typography>
-            <input type="file" onChange={onFileChange} accept="image/*" />
-            <Button onClick={onFileUpload}>Upload</Button>
+            <Button variant="contained" component="label">
+                Upload File
+                <input type="file" onChange={onFileChange} accept="image/*" hidden/>
+            </Button>
 
             <div className={classes.demo}>
                 <List dense={false}>
