@@ -106,7 +106,7 @@ function Graph(props) {
                                 parent: { border: "1px solid #ccc" }
                             }}
                             data={
-                                spendings.map((item, index) => { return { "x": index + 1, "y": parseInt(item) } })
+                                spendings && spendings.map((item, index) => { return { "x": index + 1, "y": parseInt(item) } })
                             }
                         />
                     </VictoryChart>
