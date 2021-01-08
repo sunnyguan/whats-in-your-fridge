@@ -59,7 +59,7 @@ export default class DetailedRecipe extends React.Component {
                     <CardActions>
                         <Button size="small" color="primary" href={recipe.spoonacularSourceUrl 
                             ? recipe.spoonacularSourceUrl : recipe.sourceUrl} target="_blank">
-                            Learn More
+                            Go To Recipe 
                         </Button>
                     </CardActions>
                 </Card>

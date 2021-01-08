@@ -76,16 +76,12 @@ export default function Recipe(props) {
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              R
+              *
           </Avatar>
           }
-          // action={
-          //   <IconButton aria-label="settings">
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
+         
           title={props.recipe.title}
-          subheader="September 14, 2016"
+          //subheader="September 14, 2016"
         />
         <CardMedia
           className={classes.media}
